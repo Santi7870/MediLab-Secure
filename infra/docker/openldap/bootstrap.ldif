@@ -1,0 +1,21 @@
+dn: ou=users,dc=medilab,dc=local
+objectClass: organizationalUnit
+ou: users
+
+dn: uid=federated.lab,ou=users,dc=medilab,dc=local
+objectClass: inetOrgPerson
+cn: Federated Lab
+sn: Lab
+givenName: Federated
+mail: federated.lab@medilab.local
+uid: federated.lab
+userPassword: DemoPass123!
+
+dn: uid=federated.auditor,ou=users,dc=medilab,dc=local
+objectClass: inetOrgPerson
+cn: Federated Auditor
+sn: Auditor
+givenName: Federated
+mail: federated.auditor@medilab.local
+uid: federated.auditor
+userPassword: DemoPass123!

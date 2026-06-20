@@ -1,0 +1,48 @@
+# OS and editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Node / frontend
+node_modules/
+dist/
+.vite/
+*.tsbuildinfo
+
+# Local runtime artifacts
+*.log
+*.db
+tmp/
+output/
+.playwright-mcp/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Generated config artifacts
+apps/system-a-web/vite.config.js
+apps/system-a-web/vite.config.d.ts
+
+# Binary deliverables and academic artifacts
+*.docx
+*.pdf
+*.pptx
+
+# Keep source diagrams, skip exported images
+*.drawio.png

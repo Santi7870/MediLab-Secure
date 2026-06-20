@@ -1,0 +1,2 @@
+class TransitCipherError(Exception):
+    pass

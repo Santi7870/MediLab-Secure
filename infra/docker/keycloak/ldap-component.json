@@ -1,0 +1,33 @@
+{
+  "name": "medilab-ldap",
+  "providerId": "ldap",
+  "providerType": "org.keycloak.storage.UserStorageProvider",
+  "parentId": "medilab-secure",
+  "config": {
+    "enabled": ["true"],
+    "priority": ["0"],
+    "fullSyncPeriod": ["-1"],
+    "changedSyncPeriod": ["-1"],
+    "cachePolicy": ["DEFAULT"],
+    "batchSizeForSync": ["1000"],
+    "editMode": ["READ_ONLY"],
+    "syncRegistrations": ["false"],
+    "importEnabled": ["true"],
+    "vendor": ["other"],
+    "usernameLDAPAttribute": ["uid"],
+    "rdnLDAPAttribute": ["uid"],
+    "uuidLDAPAttribute": ["entryUUID"],
+    "userObjectClasses": ["inetOrgPerson, organizationalPerson"],
+    "connectionUrl": ["ldap://openldap:389"],
+    "usersDn": ["ou=users,dc=medilab,dc=local"],
+    "authType": ["simple"],
+    "bindDn": ["cn=admin,dc=medilab,dc=local"],
+    "bindCredential": ["admin"],
+    "searchScope": ["1"],
+    "validatePasswordPolicy": ["false"],
+    "trustEmail": ["true"],
+    "connectionPooling": ["true"],
+    "pagination": ["true"],
+    "useTruststoreSpi": ["ldapsOnly"]
+  }
+}

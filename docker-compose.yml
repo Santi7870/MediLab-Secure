@@ -1,0 +1,185 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: medilab-postgres
+    environment:
+      POSTGRES_USER: medilab
+      POSTGRES_PASSWORD: medilab
+      POSTGRES_DB: medilab
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U medilab -d medilab"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  openldap:
+    build:
+      context: .
+      dockerfile: infra/docker/openldap/Dockerfile
+    container_name: medilab-openldap
+    environment:
+      LDAP_ORGANISATION: MediLab Secure
+      LDAP_DOMAIN: medilab.local
+      LDAP_ADMIN_PASSWORD: admin
+      LDAP_CONFIG_PASSWORD: admin
+    ports:
+      - "8389:389"
+    networks:
+      - identity-network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    container_name: medilab-keycloak
+    command: ["start-dev", "--http-port=8081", "--import-realm"]
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./infra/docker/keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json:ro
+    networks:
+      - identity-network
+
+  keycloak-config:
+    image: quay.io/keycloak/keycloak:26.0
+    container_name: medilab-keycloak-config
+    depends_on:
+      keycloak:
+        condition: service_started
+      openldap:
+        condition: service_started
+    entrypoint: ["/bin/sh", "/opt/keycloak-config/configure-ldap-federation.sh"]
+    environment:
+      KEYCLOAK_URL: http://keycloak:8081
+      KEYCLOAK_REALM: medilab-secure
+      KEYCLOAK_ADMIN_USER: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - ./infra/docker/keycloak/configure-ldap-federation.sh:/opt/keycloak-config/configure-ldap-federation.sh:ro
+      - ./infra/docker/keycloak/ldap-component.json:/opt/keycloak-config/ldap-component.json:ro
+    networks:
+      - identity-network
+
+  vault:
+    image: hashicorp/vault:1.17
+    container_name: medilab-vault
+    cap_add:
+      - IPC_LOCK
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: root
+      VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
+    command: server -dev -dev-root-token-id=root -dev-listen-address=0.0.0.0:8200
+    ports:
+      - "8200:8200"
+    networks:
+      - vault-network
+
+  vault-init:
+    image: hashicorp/vault:1.17
+    container_name: medilab-vault-init
+    depends_on:
+      vault:
+        condition: service_started
+    entrypoint: ["/bin/sh", "/opt/vault/init.sh"]
+    environment:
+      VAULT_ADDR: http://vault:8200
+      VAULT_TOKEN: root
+      VAULT_TRANSIT_KEY: medilab-lab-results
+    volumes:
+      - ./infra/docker/vault/init.sh:/opt/vault/init.sh:ro
+    networks:
+      - vault-network
+
+  system-b-api:
+    build:
+      context: .
+      dockerfile: services/system-b-api/Dockerfile
+    container_name: system-b-api
+    environment:
+      DATABASE_URL: postgresql+psycopg://medilab:medilab@postgres:5432/medilab
+      DB_SCHEMA: system_b
+      API_PORT: 8002
+      KEYCLOAK_SERVER_URL: http://keycloak:8081
+      KEYCLOAK_REALM: medilab-secure
+      KEYCLOAK_CLIENT_ID: system-a-web
+      VAULT_ADDR: http://vault:8200
+      VAULT_TOKEN: root
+      VAULT_TRANSIT_KEY: medilab-lab-results
+    ports:
+      - "8002:8002"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      keycloak:
+        condition: service_started
+      vault-init:
+        condition: service_completed_successfully
+    networks:
+      - app-network
+      - identity-network
+      - vault-network
+
+  system-a-api:
+    build:
+      context: .
+      dockerfile: services/system-a-api/Dockerfile
+    container_name: system-a-api
+    environment:
+      DATABASE_URL: postgresql+psycopg://medilab:medilab@postgres:5432/medilab
+      DB_SCHEMA: system_a
+      SYSTEM_B_BASE_URL: http://system-b-api:8002
+      API_PORT: 8001
+      KEYCLOAK_SERVER_URL: http://keycloak:8081
+      KEYCLOAK_REALM: medilab-secure
+      KEYCLOAK_CLIENT_ID: system-a-web
+      VAULT_ADDR: http://vault:8200
+      VAULT_TOKEN: root
+      VAULT_TRANSIT_KEY: medilab-lab-results
+    ports:
+      - "8001:8001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      system-b-api:
+        condition: service_started
+      keycloak:
+        condition: service_started
+      vault-init:
+        condition: service_completed_successfully
+    networks:
+      - app-network
+      - identity-network
+      - vault-network
+
+  system-a-web:
+    build:
+      context: .
+      dockerfile: apps/system-a-web/Dockerfile
+    container_name: system-a-web
+    environment:
+      VITE_SYSTEM_A_API_URL: http://localhost:8001
+      VITE_KEYCLOAK_URL: http://localhost:8081
+      VITE_KEYCLOAK_REALM: medilab-secure
+      VITE_KEYCLOAK_CLIENT_ID: system-a-web
+    ports:
+      - "5173:5173"
+    depends_on:
+      system-a-api:
+        condition: service_started
+      keycloak-config:
+        condition: service_completed_successfully
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+  identity-network:
+  vault-network:

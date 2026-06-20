@@ -1,0 +1,158 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.5.2 Chrome/142.0.7444.265 Electron/39.6.1 Safari/537.36" version="29.5.2">
+  <diagram id="medilab-secure-architecture" name="Arquitectura MediLab Secure">
+    <mxGraphModel dx="1737" dy="1043" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontColor=#17324D;" value="&lt;b&gt;Arquitectura MediLab Secure&lt;/b&gt;&lt;br&gt;Keycloak para identidad centralizada + HashiCorp Vault Transit para cifrado de requests" vertex="1">
+          <mxGeometry height="60" width="880" x="260" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="zone_identity" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2FF;strokeColor=#6C8EBF;fontSize=14;fontStyle=1;fontColor=#1F4E79;" value="Zona de identidad y acceso" vertex="1">
+          <mxGeometry height="230" width="640" x="380" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="zone_kms" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF7EA;strokeColor=#82B366;fontSize=14;fontStyle=1;fontColor=#2D572C;" value="Zona de cifrado / descifrado con KMS" vertex="1">
+          <mxGeometry height="145" width="500" x="450" y="105" as="geometry" />
+        </mxCell>
+        <mxCell id="zone_business" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF4E6;strokeColor=#D79B00;fontSize=14;fontStyle=1;fontColor=#7A4B00;" value="" vertex="1">
+          <mxGeometry height="285" width="1280" x="60" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="user" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=13;fontColor=#17324D;strokeColor=#1F78B4;fillColor=#DAE8FC;" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;Paciente / Médico / Administrador" vertex="1">
+          <mxGeometry height="65" width="40" x="175" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="keycloak" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#1F78B4;fontSize=13;fontColor=#17324D;spacing=8;" value="&lt;b&gt;Keycloak&lt;/b&gt;&lt;br&gt;Control de Identidades&lt;br&gt;&lt;hr&gt;• Autenticación&lt;br&gt;• Autorización por roles&lt;br&gt;• SSO&lt;br&gt;• Emisión de token OIDC/JWT" vertex="1">
+          <mxGeometry height="140" width="260" x="570" y="635" as="geometry" />
+        </mxCell>
+        <mxCell id="otp" parent="1" style="shape=mxgraph.ios7.misc.mobile;html=1;rounded=1;whiteSpace=wrap;fillColor=#E1F5FE;strokeColor=#1F78B4;fontSize=12;fontColor=#17324D;" value="&lt;b&gt;OTP / MFA&lt;/b&gt;&lt;br&gt;Google Authenticator&lt;br&gt;o FreeOTP" vertex="1">
+          <mxGeometry height="120" width="100" x="390" y="645" as="geometry" />
+        </mxCell>
+        <mxCell id="ldap" parent="1" style="shape=folder;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;rounded=1;fillColor=#F5F5F5;strokeColor=#666666;fontSize=12;fontColor=#333333;" value="&lt;b&gt;LDAP / Usuarios Federados&lt;/b&gt;&lt;br&gt;Directorio externo" vertex="1">
+          <mxGeometry height="80" width="120" x="895" y="665" as="geometry" />
+        </mxCell>
+        <mxCell id="sistemaA" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=15;fontColor=#1B5E20;spacing=8;" value="" vertex="1">
+          <mxGeometry height="190" width="330" x="110" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="frontA" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#82B366;fontSize=12;" value="Frontend Web" vertex="1">
+          <mxGeometry height="45" width="120" x="135" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="apiA" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#82B366;fontSize=12;" value="Backend / API&lt;br&gt;Solicitudes médicas" vertex="1">
+          <mxGeometry height="55" width="130" x="285" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="dbA" parent="1" style="shape=cylinder3d;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#F5F5F5;strokeColor=#82B366;fontSize=12;" value="BD Citas" vertex="1">
+          <mxGeometry height="50" width="80" x="240" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="sistemaB" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=15;fontColor=#7A4B00;spacing=8;" value="" vertex="1">
+          <mxGeometry height="190" width="330" x="960" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="apiB" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D79B00;fontSize=12;" value="API de Laboratorio" vertex="1">
+          <mxGeometry height="45" width="120" x="985" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="modB" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D79B00;fontSize=12;" value="Módulo de&lt;br&gt;resultados" vertex="1">
+          <mxGeometry height="55" width="130" x="1135" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="dbB" parent="1" style="shape=cylinder3d;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#F5F5F5;strokeColor=#D79B00;fontSize=12;" value="BD Resultados&lt;br&gt;clínicos" vertex="1">
+          <mxGeometry height="55" width="90" x="1085" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="vault" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#2E7D32;fontSize=13;fontColor=#1B5E20;spacing=8;" value="&lt;b&gt;HashiCorp Vault Transit&lt;/b&gt;&lt;br&gt;KMS / Servicio de cifrado&lt;br&gt;&lt;hr&gt;• Gestión de claves&lt;br&gt;• Cifrado de request&lt;br&gt;• Descifrado de request&lt;div&gt;&lt;br/&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="105" width="320" x="540" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="vault_icon" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=34;" value="🔐" vertex="1">
+          <mxGeometry height="10" width="20" x="560" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="payload_note" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=12;fontColor=#7A4B00;" value="&lt;b&gt;Request cifrado&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="600" y="445" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontSize=12;fontColor=#333333;align=left;spacing=8;" value="&lt;b&gt;Leyenda&lt;/b&gt;&lt;br&gt;&lt;font color=&#39;#1F78B4&#39;&gt;Azul:&lt;/font&gt; Identidad / tokens&lt;br&gt;&lt;font color=&#39;#2E7D32&#39;&gt;Verde:&lt;/font&gt; Cifrado / descifrado KMS&lt;br&gt;&lt;font color=&#39;#C77C00&#39;&gt;Naranja:&lt;/font&gt; Comunicación A → B" vertex="1">
+          <mxGeometry height="105" width="210" x="1110" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="e_user_keycloak" edge="1" parent="1" source="user" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#1F78B4;fontColor=#1F78B4;edgeStyle=orthogonalEdgeStyle;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="keycloak" value="1. Login">
+          <mxGeometry relative="1" x="-0.5056" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="350" y="702" />
+              <mxPoint x="350" y="790" />
+              <mxPoint x="700" y="790" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_keycloak_otp" edge="1" parent="1" source="keycloak" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#1F78B4;fontColor=#1F78B4;edgeStyle=orthogonalEdgeStyle;" target="otp" value="2. Validación MFA">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_keycloak_ldap" edge="1" parent="1" source="keycloak" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#1F78B4;fontColor=#1F78B4;edgeStyle=orthogonalEdgeStyle;" target="ldap" value="3. Federación">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_keycloak_A" edge="1" parent="1" source="keycloak" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#1F78B4;fontColor=#1F78B4;edgeStyle=orthogonalEdgeStyle;" target="sistemaA" value="4. Token OIDC/JWT">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="590" />
+              <mxPoint x="275" y="590" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_keycloak_B" edge="1" parent="1" source="keycloak" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#1F78B4;fontColor=#1F78B4;edgeStyle=orthogonalEdgeStyle;exitX=0.637;exitY=1.005;exitDx=0;exitDy=0;exitPerimeter=0;" target="sistemaB" value="5. SSO + Token">
+          <mxGeometry relative="1" x="-0.3254" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="736" y="790" />
+              <mxPoint x="1070" y="790" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_A_vault" edge="1" parent="1" source="apiA" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#2E7D32;fontColor=#2E7D32;edgeStyle=orthogonalEdgeStyle;" target="vault" value="6. Encriptar request">
+          <mxGeometry relative="1" x="-0.4162" y="-3" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="700" y="410" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_vault_A" edge="1" parent="1" source="vault" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#2E7D32;fontColor=#2E7D32;edgeStyle=orthogonalEdgeStyle;dashed=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" target="apiA" value="7. Payload cifrado">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_A_payload" edge="1" parent="1" source="apiA" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#C77C00;edgeStyle=orthogonalEdgeStyle;" target="payload_note" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="350" y="475" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_payload_B" edge="1" parent="1" source="payload_note" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#C77C00;fontColor=#C77C00;edgeStyle=orthogonalEdgeStyle;" target="apiB" value="8. Envío de request cifrado">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_B_vault" edge="1" parent="1" source="apiB" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#2E7D32;fontColor=#2E7D32;edgeStyle=orthogonalEdgeStyle;" target="vault" value="9. Desencriptar request">
+          <mxGeometry relative="1" x="-0.4098" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="700" y="410" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_vault_B" edge="1" parent="1" source="vault" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#2E7D32;fontColor=#2E7D32;edgeStyle=orthogonalEdgeStyle;dashed=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" target="apiB" value="10. Request descifrado">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_B_A" edge="1" parent="1" source="sistemaB" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#C77C00;fontColor=#C77C00;edgeStyle=orthogonalEdgeStyle;dashed=1;" target="sistemaA" value="11. Respuesta del servicio">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="440" />
+              <mxPoint x="700" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2FF;strokeColor=#6C8EBF;fontSize=11;fontColor=#17324D;" value="El usuario se autentica una sola vez y accede a ambos sistemas mediante SSO." vertex="1">
+          <mxGeometry height="45" width="280" x="60" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="note2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF7EA;strokeColor=#82B366;fontSize=11;fontColor=#1B5E20;" value="El request no viaja en texto plano: Sistema A cifra y Sistema B descifra usando Vault Transit." vertex="1">
+          <mxGeometry height="45" width="340" x="530" y="275" as="geometry" />
+        </mxCell>
+        <mxCell id="6e4UEeaXe4A1th2GwhUd-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;b style=&quot;color: rgb(122, 75, 0); font-size: 15px;&quot;&gt;Sistema B&lt;/b&gt;&lt;br style=&quot;color: rgb(122, 75, 0); font-size: 15px;&quot;&gt;&lt;span style=&quot;color: rgb(122, 75, 0); font-size: 15px;&quot;&gt;Resultados de Laboratorio&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="220" x="1015" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="6e4UEeaXe4A1th2GwhUd-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;b style=&quot;color: rgb(27, 94, 32); font-size: 15px;&quot;&gt;Sistema A&lt;/b&gt;&lt;br style=&quot;color: rgb(27, 94, 32); font-size: 15px;&quot;&gt;&lt;span style=&quot;color: rgb(27, 94, 32); font-size: 15px;&quot;&gt;Portal de Citas Médicas&lt;/span&gt;" vertex="1">
+          <mxGeometry height="30" width="190" x="180" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="6e4UEeaXe4A1th2GwhUd-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;span style=&quot;color: rgb(122, 75, 0); font-size: 14px; font-weight: 700;&quot;&gt;Zona de sistemas de negocio&lt;/span&gt;" vertex="1">
+          <mxGeometry height="30" width="240" x="75" y="290" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

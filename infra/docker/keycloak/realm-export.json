@@ -1,0 +1,133 @@
+{
+  "realm": "medilab-secure",
+  "enabled": true,
+  "registrationAllowed": false,
+  "resetPasswordAllowed": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "otpPolicyType": "totp",
+  "otpPolicyAlgorithm": "HmacSHA1",
+  "otpPolicyDigits": 6,
+  "otpPolicyPeriod": 30,
+  "otpPolicyLookAheadWindow": 1,
+  "otpPolicyInitialCounter": 0,
+  "otpSupportedApplications": [
+    "FreeOTP",
+    "Google Authenticator",
+    "Microsoft Authenticator"
+  ],
+  "requiredActions": [
+    {
+      "alias": "CONFIGURE_TOTP",
+      "name": "Configure OTP",
+      "providerId": "CONFIGURE_TOTP",
+      "enabled": true,
+      "defaultAction": true,
+      "priority": 10
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "system-a-web",
+      "name": "System A Web",
+      "enabled": true,
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "http://127.0.0.1:5173/*",
+        "http://localhost:5173/*"
+      ],
+      "webOrigins": [
+        "http://127.0.0.1:5173",
+        "http://localhost:5173"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      }
+    }
+  ],
+  "roles": {
+    "realm": [
+      { "name": "patient" },
+      { "name": "doctor" },
+      { "name": "laboratory" },
+      { "name": "admin" },
+      { "name": "auditor" }
+    ]
+  },
+  "users": [
+    {
+      "username": "doctor.demo",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Demo",
+      "lastName": "Doctor",
+      "email": "doctor.demo@medilab.local",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "DemoPass123!",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["doctor"]
+      ,
+      "requiredActions": ["CONFIGURE_TOTP"]
+    },
+    {
+      "username": "admin.demo",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Demo",
+      "lastName": "Admin",
+      "email": "admin.demo@medilab.local",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "DemoPass123!",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["admin"],
+      "requiredActions": ["CONFIGURE_TOTP"]
+    },
+    {
+      "username": "laboratory.demo",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Demo",
+      "lastName": "Laboratory",
+      "email": "laboratory.demo@medilab.local",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "DemoPass123!",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["laboratory"],
+      "requiredActions": ["CONFIGURE_TOTP"]
+    },
+    {
+      "username": "auditor.demo",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Demo",
+      "lastName": "Auditor",
+      "email": "auditor.demo@medilab.local",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "DemoPass123!",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["auditor"],
+      "requiredActions": ["CONFIGURE_TOTP"]
+    }
+  ]
+}

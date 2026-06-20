@@ -1,0 +1,18 @@
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI
+
+from app.infrastructure.database.bootstrap import bootstrap_database
+from app.presentation.routers.health import router as health_router
+from app.presentation.routers.lab_results import router as lab_results_router
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    bootstrap_database()
+    yield
+
+
+app = FastAPI(title="System B API", version="1.0.0", lifespan=lifespan)
+app.include_router(health_router)
+app.include_router(lab_results_router)
