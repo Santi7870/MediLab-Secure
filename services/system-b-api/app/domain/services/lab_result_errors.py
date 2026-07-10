@@ -1,0 +1,2 @@
+class LabResultNotFoundError(Exception):
+    pass

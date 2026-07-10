@@ -174,3 +174,71 @@ Current implementation status:
 ### Plan 5
 
 Audit evidence, academic closure, and final presentation
+
+## Pending academic demonstration requirements
+
+These points must remain visible as pending work or final validation targets for the closing review.
+
+### Visual SSO demonstration between two apps
+
+Even though the current implementation already centralizes identity through `Keycloak`, the professor expects a stronger visible `SSO` demonstration between two separate web applications.
+
+This means the final review should show:
+
+1. the user signs in on `System A`
+2. the same browser session opens `System B`
+3. `System B` reuses the same `Keycloak` session without forcing a second login
+4. both apps show the user identity and role context clearly
+
+### Frontend pending for System B
+
+`System B` currently exists as a protected API and participates in the secure integration flow, but it does not yet expose its own business UI.
+
+Pending implementation target:
+
+- create a minimal `System B Web` frontend
+- connect it to the same `Keycloak` realm
+- show role-aware access in that second application
+- use it as the visual evidence for cross-application `SSO`
+
+### Role demonstration across both apps
+
+The professor also expects the review to demonstrate that a user can have role-based behavior across both applications.
+
+The final demo should make visible:
+
+- what a user can do in `System A`
+- what the same user can do in `System B`
+- whether roles are shared, restricted, or differentiated per application
+
+If stricter separation is required, the preferred next step is to model client-specific roles or mappings in `Keycloak`.
+
+### Vault demonstration requirement
+
+`Vault Transit` is already implemented in the integration flow, but the presentation must explain it clearly and treat it as a visible review objective.
+
+The final demonstration should show:
+
+1. `System A Web` calls `System A API`
+2. `System A API` validates the token
+3. `System A API` encrypts the request payload with `Vault Transit`
+4. `System B API` decrypts the payload through `Vault`
+5. `System B API` processes laboratory data
+6. `System B API` encrypts the response again
+7. `System A API` decrypts the response and returns the business result
+
+Important explanation for the review:
+
+- `Vault` does not store the medical records
+- `Vault` provides the cryptographic operation and key management layer
+- the sensitive `A -> B` payload should not travel as plain business data in the internal integration path
+
+### System B laboratory CRUD
+
+Current implementation status:
+
+- `System B Web` now exposes an operations workspace for `lab-admin` and `lab-operator`
+- laboratory staff can create, edit, and delete `LabResult` records directly in `System B`
+- `System A` remains the consuming portal and does not mutate laboratory records
+- this separation is intended to make the two-application demo clearer during the sprint review
+

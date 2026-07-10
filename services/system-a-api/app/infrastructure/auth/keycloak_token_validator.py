@@ -9,9 +9,10 @@ from app.domain.services.token_validator import TokenValidator
 
 class KeycloakTokenValidator(TokenValidator):
     def __init__(self):
-        realm_url = f"{settings.keycloak_server_url}/realms/{settings.keycloak_realm}"
-        self._issuer = realm_url
-        self._jwk_client = PyJWKClient(f"{realm_url}/protocol/openid-connect/certs")
+        internal_realm_url = f"{settings.keycloak_server_url}/realms/{settings.keycloak_realm}"
+        public_realm_url = f"{settings.keycloak_public_url}/realms/{settings.keycloak_realm}"
+        self._issuer = public_realm_url
+        self._jwk_client = PyJWKClient(f"{internal_realm_url}/protocol/openid-connect/certs")
 
     def validate(self, access_token: str) -> AuthenticatedUser:
         try:

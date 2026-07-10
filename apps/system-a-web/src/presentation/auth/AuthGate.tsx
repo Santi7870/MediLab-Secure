@@ -4,21 +4,21 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
   const auth = useAuth();
 
   if (auth.isLoading) {
-    return <div className="auth-screen">Initializing secure session...</div>;
+    return <div className="auth-screen">Inicializando sesi?n segura...</div>;
   }
 
   if (!auth.isAuthenticated) {
     return (
       <div className="auth-screen">
         <div className="auth-card">
-          <p className="eyebrow">Identity Gateway</p>
-          <h1>Sign in with Keycloak</h1>
+          <p className="eyebrow">Acceso corporativo</p>
+          <h1>Ingreso al Portal Cl?nico</h1>
           <p className="supporting-text dark-text">
-            Centralized sign-in is handled by Keycloak. Plan 3 adds role checks, SSO
-            continuity, and OTP enrollment policy.
+            La autenticaci?n centralizada se realiza con Keycloak para habilitar sesi?n ?nica, control por roles y
+            continuidad entre los portales A y B.
           </p>
           <button className="primary-action" onClick={() => void auth.login()} type="button">
-            Sign in
+            Iniciar sesi?n
           </button>
         </div>
       </div>

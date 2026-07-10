@@ -9,9 +9,15 @@ from app.domain.services.token_validator import TokenValidator
 
 class KeycloakTokenValidator(TokenValidator):
     def __init__(self):
-        realm_url = f"{settings.keycloak_server_url}/realms/{settings.keycloak_realm}"
-        self._issuer = realm_url
-        self._jwk_client = PyJWKClient(f"{realm_url}/protocol/openid-connect/certs")
+        internal_realm_url = f"{settings.keycloak_server_url}/realms/{settings.keycloak_realm}"
+        public_realm_url = f"{settings.keycloak_public_url}/realms/{settings.keycloak_realm}"
+        self._issuer = public_realm_url
+        self._jwk_client = PyJWKClient(f"{internal_realm_url}/protocol/openid-connect/certs")
+        self._allowed_client_ids = {
+            client_id.strip()
+            for client_id in settings.keycloak_allowed_client_ids.split(",")
+            if client_id.strip()
+        }
 
     def validate(self, access_token: str) -> AuthenticatedUser:
         try:
@@ -26,8 +32,8 @@ class KeycloakTokenValidator(TokenValidator):
         except InvalidTokenError as exc:
             raise AuthenticationError("Invalid or expired access token.") from exc
 
-        if payload.get("azp") != settings.keycloak_client_id:
-            raise AuthenticationError("Token was not issued for the expected client.")
+        if payload.get("azp") not in self._allowed_client_ids:
+            raise AuthenticationError("Token was not issued for an allowed frontend client.")
 
         roles = tuple(payload.get("realm_access", {}).get("roles", []))
         return AuthenticatedUser(

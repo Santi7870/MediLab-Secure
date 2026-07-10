@@ -10,6 +10,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U medilab -d medilab"]
       interval: 10s
@@ -105,8 +107,10 @@ services:
       DB_SCHEMA: system_b
       API_PORT: 8002
       KEYCLOAK_SERVER_URL: http://keycloak:8081
+      KEYCLOAK_PUBLIC_URL: http://localhost:8081
       KEYCLOAK_REALM: medilab-secure
       KEYCLOAK_CLIENT_ID: system-a-web
+      KEYCLOAK_ALLOWED_CLIENT_IDS: system-a-web,system-b-web
       VAULT_ADDR: http://vault:8200
       VAULT_TOKEN: root
       VAULT_TRANSIT_KEY: medilab-lab-results
@@ -135,6 +139,7 @@ services:
       SYSTEM_B_BASE_URL: http://system-b-api:8002
       API_PORT: 8001
       KEYCLOAK_SERVER_URL: http://keycloak:8081
+      KEYCLOAK_PUBLIC_URL: http://localhost:8081
       KEYCLOAK_REALM: medilab-secure
       KEYCLOAK_CLIENT_ID: system-a-web
       VAULT_ADDR: http://vault:8200
@@ -170,6 +175,26 @@ services:
       - "5173:5173"
     depends_on:
       system-a-api:
+        condition: service_started
+      keycloak-config:
+        condition: service_completed_successfully
+    networks:
+      - app-network
+
+  system-b-web:
+    build:
+      context: .
+      dockerfile: apps/system-b-web/Dockerfile
+    container_name: system-b-web
+    environment:
+      VITE_SYSTEM_B_API_URL: http://localhost:8002
+      VITE_KEYCLOAK_URL: http://localhost:8081
+      VITE_KEYCLOAK_REALM: medilab-secure
+      VITE_KEYCLOAK_CLIENT_ID: system-b-web
+    ports:
+      - "5174:5174"
+    depends_on:
+      system-b-api:
         condition: service_started
       keycloak-config:
         condition: service_completed_successfully

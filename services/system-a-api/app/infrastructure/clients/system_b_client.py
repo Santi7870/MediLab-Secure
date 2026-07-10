@@ -14,7 +14,7 @@ _system_b_async_client = httpx.AsyncClient(timeout=20.0)
 
 
 class SystemBLabResultGateway(LabResultGateway):
-    _cache_ttl_seconds = 30.0
+    _cache_ttl_seconds = 5.0
     _cached_results: dict[int, tuple[float, list[LabResult]]] = {}
 
     def __init__(self, base_url: str | None = None):

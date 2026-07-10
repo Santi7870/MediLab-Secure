@@ -1,98 +1,95 @@
-import { Link } from "react-router-dom";
-import { useAuth } from "../auth/AuthContext";
-
-export function DashboardPage() {
-  const auth = useAuth();
-  const isAdmin = auth.roles.includes("admin");
-  const isLaboratory = auth.roles.includes("laboratory");
-  const isDoctor = auth.roles.includes("doctor");
-  const isAuditor = auth.roles.includes("auditor");
-  const primaryRoute =
-    isLaboratory && !isDoctor && !isAdmin && !isAuditor ? "/laboratory" : "/patients";
-  const primaryLabel =
-    isLaboratory && !isDoctor && !isAdmin && !isAuditor
-      ? "Open laboratory workspace"
-      : "Open patient records";
-
-  return (
-    <section className="page-stack">
-      <header className="hero">
-        <div>
-          <p className="eyebrow">Plan 3 Security Controls</p>
-          <h2>Identity-aware clinical access for System A</h2>
-          <p className="supporting-text">
-            This portal now runs with centralized login in Keycloak, route access by
-            role, and OTP enrollment prepared at the identity layer before the remaining
-            federation and KMS work.
-          </p>
-        </div>
-        <Link className="primary-action" to={primaryRoute}>
-          {primaryLabel}
-        </Link>
-      </header>
-
-      <section className="metrics-grid">
-        <article className="metric-card">
-          <h3>Authorization</h3>
-          <p>Role-aware routes and backend policy enforcement</p>
-        </article>
-        <article className="metric-card">
-          <h3>Session</h3>
-          <p>Single sign-on backed by a centralized Keycloak realm</p>
-        </article>
-        <article className="metric-card">
-          <h3>MFA</h3>
-          <p>TOTP enrollment prepared as required action in Keycloak</p>
-        </article>
-      </section>
-
-      <section className="panel">
-        <div className="panel-header">
-          <h3>Role-specific workspaces</h3>
-          <span>Rendered from your Keycloak role assignment</span>
-        </div>
-        <div className="role-grid">
-          {isAdmin && (
-            <article className="metric-card">
-              <h3>Admin workspace</h3>
-              <p>Review role governance, MFA enforcement, and access policy coverage.</p>
-              <Link className="button-link" to="/admin">
-                Open admin console
-              </Link>
-            </article>
-          )}
-
-          {isLaboratory && (
-            <article className="metric-card">
-              <h3>Laboratory workspace</h3>
-              <p>Jump straight to patient result validation without exposing the registry view.</p>
-              <Link className="button-link" to="/laboratory">
-                Open laboratory workspace
-              </Link>
-            </article>
-          )}
-
-          {isDoctor && (
-            <article className="metric-card">
-              <h3>Doctor workspace</h3>
-              <p>Clinical users can access the patient registry and drill into laboratory detail.</p>
-              <Link className="button-link" to="/patients">
-                Open patient registry
-              </Link>
-            </article>
-          )}
-
-          {isAuditor && (
-            <article className="metric-card">
-              <h3>Auditor workspace</h3>
-              <p>Audit roles can inspect the same secured workflow to validate control operation.</p>
-              <Link className="button-link" to="/patients">
-                Review secured flow
-              </Link>
-            </article>
-          )}
-        </div>
-      </section>
-    </section>
-  );
-}
+import { Link } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
+
+export function DashboardPage() {
+  const auth = useAuth();
+  const isAdmin = auth.roles.includes("portal-admin");
+  const isLaboratory = auth.roles.includes("result-coordinator");
+  const isDoctor = auth.roles.includes("clinical-operator");
+  const isAuditor = auth.roles.includes("compliance-reviewer");
+  const primaryRoute =
+    isLaboratory && !isDoctor && !isAdmin && !isAuditor ? "/laboratory" : "/patients";
+  const primaryLabel =
+    isLaboratory && !isDoctor && !isAdmin && !isAuditor
+      ? "Abrir validación de resultados"
+      : "Abrir registro de pacientes";
+
+  return (
+    <section className="page-stack">
+      <header className="hero">
+        <div>
+          <p className="eyebrow">Panel principal</p>
+          <h2>Coordinaci?n clínica con identidad centralizada</h2>
+          <p className="content-supporting-text hero-note">
+            Sistema A concentra la atención operativa, el acceso al registro de pacientes y la consulta segura de resultados
+            generados por el Sistema B bajo una misma sesión corporativa.
+          </p>
+        </div>
+        <div className="hero-actions">
+          <Link className="primary-action" to={primaryRoute}>
+            {primaryLabel}
+          </Link>
+          <Link className="secondary-action" to="/laboratory">
+            Revisar laboratorio
+          </Link>
+        </div>
+      </header>
+
+      <section className="metrics-grid">
+        <article className="metric-card">
+          <span className="kpi-label">Identidad</span>
+          <strong className="kpi-value">Keycloak + SSO</strong>
+          <p>Sesión única entre portales con control de autenticación y trazabilidad del acceso.</p>
+        </article>
+        <article className="metric-card">
+          <span className="kpi-label">Integración</span>
+          <strong className="kpi-value">Sistema A - Sistema B</strong>
+          <p>El portal clínico consume resultados del laboratorio sin exponer edición directa desde esta aplicación.</p>
+        </article>
+        <article className="metric-card">
+          <span className="kpi-label">Protección</span>
+          <strong className="kpi-value">Roles + Vault Transit</strong>
+          <p>La autorización por perfil y el cifrado del intercambio protegen el flujo médico interno.</p>
+        </article>
+      </section>
+
+      <section className="panel">
+        <div className="panel-header">
+          <h3>Accesos operativos</h3>
+          <span>Disponibles según su perfil en Sistema A</span>
+        </div>
+        <div className="role-grid">
+          {(isDoctor || isAdmin || isAuditor) && (
+            <article className="metric-card">
+              <h3>Gestión de pacientes</h3>
+              <p>Consulta de usuarios clínicos, historial básico y acceso al detalle de resultados consolidados.</p>
+              <Link className="button-link" to="/patients">
+                Ingresar a pacientes
+              </Link>
+            </article>
+          )}
+
+          {(isLaboratory || isAdmin || isDoctor || isAuditor) && (
+            <article className="metric-card">
+              <h3>Consulta de laboratorio</h3>
+              <p>Acceso controlado a resultados por identificador de paciente, con validación de roles en ambos sistemas.</p>
+              <Link className="button-link" to="/laboratory">
+                Ingresar a laboratorio
+              </Link>
+            </article>
+          )}
+
+          {isAdmin && (
+            <article className="metric-card">
+              <h3>Gobierno de seguridad</h3>
+              <p>Revisión de perfiles, sesión unificada, federación y evidencia del flujo cifrado entre aplicaciones.</p>
+              <Link className="button-link" to="/admin">
+                Abrir administración
+              </Link>
+            </article>
+          )}
+        </div>
+      </section>
+    </section>
+  );
+}

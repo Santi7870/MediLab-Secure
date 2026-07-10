@@ -48,15 +48,47 @@
       "attributes": {
         "pkce.code.challenge.method": "S256"
       }
+    },
+    {
+      "clientId": "system-b-web",
+      "name": "System B Web",
+      "enabled": true,
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "http://127.0.0.1:5174/*",
+        "http://localhost:5174/*"
+      ],
+      "webOrigins": [
+        "http://127.0.0.1:5174",
+        "http://localhost:5174"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      }
     }
   ],
   "roles": {
     "realm": [
-      { "name": "patient" },
-      { "name": "doctor" },
-      { "name": "laboratory" },
-      { "name": "admin" },
-      { "name": "auditor" }
+      {
+        "name": "patient"
+      },
+      {
+        "name": "doctor"
+      },
+      {
+        "name": "laboratory"
+      },
+      {
+        "name": "admin"
+      },
+      {
+        "name": "auditor"
+      }
     ]
   },
   "users": [
@@ -74,9 +106,12 @@
           "temporary": false
         }
       ],
-      "realmRoles": ["doctor"]
-      ,
-      "requiredActions": ["CONFIGURE_TOTP"]
+      "realmRoles": [
+        "doctor"
+      ],
+      "requiredActions": [
+        "CONFIGURE_TOTP"
+      ]
     },
     {
       "username": "admin.demo",
@@ -92,8 +127,12 @@
           "temporary": false
         }
       ],
-      "realmRoles": ["admin"],
-      "requiredActions": ["CONFIGURE_TOTP"]
+      "realmRoles": [
+        "admin"
+      ],
+      "requiredActions": [
+        "CONFIGURE_TOTP"
+      ]
     },
     {
       "username": "laboratory.demo",
@@ -109,8 +148,12 @@
           "temporary": false
         }
       ],
-      "realmRoles": ["laboratory"],
-      "requiredActions": ["CONFIGURE_TOTP"]
+      "realmRoles": [
+        "laboratory"
+      ],
+      "requiredActions": [
+        "CONFIGURE_TOTP"
+      ]
     },
     {
       "username": "auditor.demo",
@@ -126,8 +169,12 @@
           "temporary": false
         }
       ],
-      "realmRoles": ["auditor"],
-      "requiredActions": ["CONFIGURE_TOTP"]
+      "realmRoles": [
+        "auditor"
+      ],
+      "requiredActions": [
+        "CONFIGURE_TOTP"
+      ]
     }
   ]
 }

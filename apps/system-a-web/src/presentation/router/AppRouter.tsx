@@ -16,7 +16,7 @@ export function AppRouter() {
           <Route index element={<DashboardPage />} />
           <Route
             element={
-              <RoleGuard allowedRoles={["admin"]}>
+              <RoleGuard allowedRoles={["portal-admin"]}>
                 <AdminConsolePage />
               </RoleGuard>
             }
@@ -24,7 +24,14 @@ export function AppRouter() {
           />
           <Route
             element={
-              <RoleGuard allowedRoles={["doctor", "admin", "laboratory", "auditor"]}>
+              <RoleGuard
+                allowedRoles={[
+                  "clinical-operator",
+                  "portal-admin",
+                  "result-coordinator",
+                  "compliance-reviewer"
+                ]}
+              >
                 <LaboratoryWorkspacePage />
               </RoleGuard>
             }
@@ -32,7 +39,7 @@ export function AppRouter() {
           />
           <Route
             element={
-              <RoleGuard allowedRoles={["doctor", "admin", "auditor"]}>
+              <RoleGuard allowedRoles={["clinical-operator", "portal-admin", "compliance-reviewer"]}>
                 <PatientsPage />
               </RoleGuard>
             }
@@ -40,7 +47,14 @@ export function AppRouter() {
           />
           <Route
             element={
-              <RoleGuard allowedRoles={["doctor", "admin", "laboratory", "auditor"]}>
+              <RoleGuard
+                allowedRoles={[
+                  "clinical-operator",
+                  "portal-admin",
+                  "result-coordinator",
+                  "compliance-reviewer"
+                ]}
+              >
                 <LabResultsPage />
               </RoleGuard>
             }

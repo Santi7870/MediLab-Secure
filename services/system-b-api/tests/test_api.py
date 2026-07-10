@@ -16,6 +16,15 @@ def _mock_authenticated_user():
     )
 
 
+def _mock_laboratory_user():
+    return AuthenticatedUser(
+        subject="demo-subject",
+        username="laboratory.demo",
+        roles=("laboratory",),
+        access_token="fake-token",
+    )
+
+
 def test_lab_results_endpoint_returns_ok_response():
     app.dependency_overrides[require_authenticated_user] = _mock_authenticated_user
     with TestClient(app) as client:
@@ -24,6 +33,48 @@ def test_lab_results_endpoint_returns_ok_response():
 
     assert response.status_code == 200
     assert isinstance(response.json(), list)
+
+
+def test_create_lab_result_returns_created_response():
+    app.dependency_overrides[require_authenticated_user] = _mock_laboratory_user
+    with TestClient(app) as client:
+        response = client.post(
+            "/api/v1/lab-results",
+            json={
+                "patient_id": 3,
+                "test_name": "Creatinine",
+                "result_value": "1.1",
+                "unit": "mg/dL",
+                "reference_range": "0.7-1.3",
+                "status": "Normal",
+                "collected_at": "2026-06-19T14:30:00Z",
+            },
+        )
+    app.dependency_overrides.clear()
+
+    assert response.status_code == 201
+    assert response.json()["test_name"] == "Creatinine"
+
+
+def test_update_lab_result_returns_404_for_unknown_result():
+    app.dependency_overrides[require_authenticated_user] = _mock_laboratory_user
+    with TestClient(app) as client:
+        response = client.put(
+            "/api/v1/lab-results/9999",
+            json={
+                "patient_id": 1,
+                "test_name": "Glucose",
+                "result_value": "100",
+                "unit": "mg/dL",
+                "reference_range": "70-100",
+                "status": "Normal",
+                "collected_at": "2026-06-19T14:30:00Z",
+            },
+        )
+    app.dependency_overrides.clear()
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Laboratory result not found."
 
 
 def test_encrypted_lab_results_query_returns_ciphertext_response():
